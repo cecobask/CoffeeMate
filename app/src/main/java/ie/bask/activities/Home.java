@@ -5,32 +5,25 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
+
 import ie.bask.R;
+import ie.bask.fragments.CoffeeFragment;
 import ie.bask.models.Coffee;
 
 public class Home extends Base {
 
     TextView emptyList;
-    ListView coffeeListView;
-    ArrayAdapter<Coffee> coffeeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         emptyList = findViewById(R.id.emptyList);
-        coffeeListView = findViewById(R.id.recentlyAddedList);
-        coffeeListView.setEmptyView(emptyList);
-        coffeeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,coffeeList);
-        coffeeListView.setAdapter(coffeeAdapter);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +38,7 @@ public class Home extends Base {
                         }).show();
             }
         });
+        if(coffeeList.isEmpty()) setupCoffees();
     }
 
     public void add(View v) {
@@ -54,9 +48,24 @@ public class Home extends Base {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.v("coffeemate","Home : " + coffeeList);
 
-        if(!coffeeList.isEmpty())
-            coffeeAdapter.notifyDataSetChanged();
+        if(coffeeList.isEmpty())
+            emptyList.setText(getString(R.string.emptyMessageLbl));
+        else
+            emptyList.setText("");
+
+        coffeeFragment = CoffeeFragment.newInstance(); //get a new Fragment instance
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, coffeeFragment)
+                .commit(); // add it to the current activity
+
     }
+
+    public void setupCoffees(){
+        coffeeList.add(new Coffee("Standard Black", "Some Shop",2.5,1.99,false));
+        coffeeList.add(new Coffee("Regular Joe", "Joe's Place",3.5,2.99,true));
+        coffeeList.add(new Coffee("Espresso", "Ardkeen Stores",4.5,1.49,true));
+    }
+
 }
+

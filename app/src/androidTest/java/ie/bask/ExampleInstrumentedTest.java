@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("ie.bask", appContext.getPackageName());
+        assertEquals("ie.cm", appContext.getPackageName());
     }
 }
