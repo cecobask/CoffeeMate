@@ -2,7 +2,7 @@ package ie.bask.activities;
 
 import ie.bask.R;
 import ie.bask.fragments.CoffeeFragment;
-import ie.bask.models.Coffee;
+import ie.bask.main.CoffeeMateApp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,13 +12,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
 public class Base extends AppCompatActivity {
 
-    public static ArrayList<Coffee> coffeeList = new ArrayList<Coffee>();
+    public CoffeeMateApp app;
     public Bundle activityInfo; // Used for persistence (of sorts)
     public CoffeeFragment coffeeFragment; // How we'll 'share' our List of Coffees between Activities
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        app = (CoffeeMateApp) getApplication();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

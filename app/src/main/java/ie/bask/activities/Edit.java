@@ -3,7 +3,6 @@ package ie.bask.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,12 +27,10 @@ public class Edit extends Base {
         activityInfo = getIntent().getExtras();
         aCoffee = getCoffeeObject(activityInfo.getString("coffeeId"));
 
-        Log.v("coffeemate", "EDIT : " + aCoffee);
-
         ((TextView)findViewById(R.id.editTitleTV)).setText(aCoffee.coffeeName);
 
         ((EditText)findViewById(R.id.editNameET)).setText(aCoffee.coffeeName);
-        ((TextView)findViewById(R.id.editShopET)).setText(aCoffee.shop);
+        ((EditText)findViewById(R.id.editShopET)).setText(aCoffee.shop);
         ((EditText)findViewById(R.id.editPriceET)).setText(""+aCoffee.price);
         ((RatingBar) findViewById(R.id.editRatingBar)).setRating((float)aCoffee.rating);
 
@@ -50,7 +47,7 @@ public class Edit extends Base {
 
     private Coffee getCoffeeObject(String id) {
 
-        for (Coffee c : coffeeList)
+        for (Coffee c : app.coffeeList)
             if (c.coffeeId.equalsIgnoreCase(id))
                 return c;
 
